@@ -1,0 +1,75 @@
+{
+  "name": "Wellness Hub - Complete Health & Fitness Tracker",
+  "short_name": "Wellness Hub",
+  "description": "A comprehensive wellness platform for tracking health, fitness, nutrition, sleep, meditation, and wellness goals.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#06b6d4",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%2306b6d4' width='192' height='192'/><text x='50%' y='50%' font-size='96' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' fill='white'>✨</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%2306b6d4' width='512' height='512'/><text x='50%' y='50%' font-size='256' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' fill='white'>✨</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "fitness", "wellness"],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%23f8f9fa' width='540' height='720'/><text x='50%' y='360' font-size='144' dominant-baseline='middle' text-anchor='middle' fill='%2306b6d4'>Wellness Hub</text></svg>",
+      "sizes": "540x720",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Track Fitness",
+      "short_name": "Fitness",
+      "description": "Log a new fitness session",
+      "url": "/fitness",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><text x='50%' y='50%' font-size='64' dominant-baseline='middle' text-anchor='middle'>💪</text></svg>",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Log Health",
+      "short_name": "Health",
+      "description": "Track your health metrics",
+      "url": "/health",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><text x='50%' y='50%' font-size='64' dominant-baseline='middle' text-anchor='middle'>❤️</text></svg>",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "short_name": "Analytics",
+      "description": "View your wellness analytics",
+      "url": "/dashboard-enhanced",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><text x='50%' y='50%' font-size='64' dominant-baseline='middle' text-anchor='middle'>📊</text></svg>",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ]
+}
