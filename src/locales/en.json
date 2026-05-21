@@ -264,10 +264,14 @@
     "password": "Password",
     "emailPlaceholder": "you@example.com",
     "passwordPlaceholder": "********",
+    "passwordHint": "Minimum 8 characters",
     "submit": "Login",
     "registerPrompt": "Don't have an account?",
     "registerHere": "Register here",
-    "invalidCredentials": "Invalid credentials"
+    "invalidCredentials": "Invalid email or password",
+    "errorCredentials": "Email or password incorrect. Please try again.",
+    "errorTooMany": "Too many attempts. Please wait a few minutes and try again.",
+    "errorServer": "Server error. Please try again in a few moments."
   },
   "register": {
     "startJourney": "Start your journey",
@@ -278,11 +282,22 @@
     "password": "Password",
     "placeholderName": "Your name",
     "emailPlaceholder": "you@example.com",
-    "passwordPlaceholder": "********",
+    "passwordPlaceholder": "Min. 8 characters",
     "submit": "Register",
     "loginPrompt": "Already have an account?",
     "loginHere": "Login here",
-    "failed": "Registration failed"
+    "failed": "Registration failed. Please try again.",
+    "reqMinChars": "At least 8 characters",
+    "strength": {
+      "weak": "Weak password",
+      "medium": "Acceptable password",
+      "strong": "Strong password"
+    },
+    "errorEmailTaken": "This email is already registered. Try logging in.",
+    "errorPasswordShort": "Password must be at least 8 characters.",
+    "errorValidation": "Please check the entered data.",
+    "errorTooMany": "Too many attempts. Please wait a few minutes.",
+    "errorServer": "Server error. Please try again in a few moments."
   },
   "footer": {
     "quickLinks": "Quick Links",

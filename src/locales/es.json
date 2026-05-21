@@ -265,10 +265,14 @@
     "password": "Contraseña",
     "emailPlaceholder": "tú@ejemplo.com",
     "passwordPlaceholder": "********",
+    "passwordHint": "Mínimo 8 caracteres",
     "submit": "Iniciar Sesión",
     "registerPrompt": "¿No tienes cuenta?",
     "registerHere": "Regístrate aquí",
-    "invalidCredentials": "Credenciales inválidas"
+    "invalidCredentials": "Email o contraseña incorrectos",
+    "errorCredentials": "Email o contraseña incorrectos. Por favor, inténtalo de nuevo.",
+    "errorTooMany": "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
+    "errorServer": "Error del servidor. Inténtalo de nuevo en unos momentos."
   },
   "register": {
     "startJourney": "Comienza tu viaje",
@@ -279,11 +283,22 @@
     "password": "Contraseña",
     "placeholderName": "Tu nombre",
     "emailPlaceholder": "tú@ejemplo.com",
-    "passwordPlaceholder": "********",
+    "passwordPlaceholder": "Mín. 8 caracteres",
     "submit": "Registrarse",
     "loginPrompt": "¿Ya tienes cuenta?",
     "loginHere": "Inicia sesión aquí",
-    "failed": "Registro fallido"
+    "failed": "Registro fallido. Por favor, inténtalo de nuevo.",
+    "reqMinChars": "Al menos 8 caracteres",
+    "strength": {
+      "weak": "Contraseña débil",
+      "medium": "Contraseña aceptable",
+      "strong": "Contraseña segura"
+    },
+    "errorEmailTaken": "Este email ya está registrado. Intenta iniciar sesión.",
+    "errorPasswordShort": "La contraseña debe tener al menos 8 caracteres.",
+    "errorValidation": "Revisa los datos introducidos.",
+    "errorTooMany": "Demasiados intentos. Espera unos minutos.",
+    "errorServer": "Error del servidor. Inténtalo de nuevo en unos momentos."
   },
   "footer": {
     "quickLinks": "Enlaces Rápidos",

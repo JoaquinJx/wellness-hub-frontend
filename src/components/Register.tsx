@@ -5,19 +5,52 @@ import { useAuth } from '../context/AuthContext';
 
 const Register: React.FC = () => {
   const { t } = useTranslation();
-  const [email, setEmail] = useState('');
+  const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName]         = useState('');
+  const [error, setError]       = useState('');
+  const [loading, setLoading]   = useState(false);
   const { register } = useAuth();
+
+  const passwordOk = password.length === 0 || password.length >= 8;
+  const passwordStrength = password.length === 0
+    ? null
+    : password.length < 8
+    ? 'weak'
+    : password.length < 12
+    ? 'medium'
+    : 'strong';
+
+  const resolveError = (err: any): string => {
+    const status  = err?.response?.status;
+    const message = err?.response?.data?.message;
+
+    if (status === 409) return t('register.errorEmailTaken');
+    if (status === 400) {
+      if (Array.isArray(message)) return message.join(' · ');
+      if (typeof message === 'string') return message;
+      return t('register.errorValidation');
+    }
+    if (status === 429) return t('register.errorTooMany');
+    if (status >= 500)  return t('register.errorServer');
+    if (message)        return message;
+    return t('register.failed');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (password.length < 8) {
+      setError(t('register.errorPasswordShort'));
+      return;
+    }
+    setError('');
+    setLoading(true);
     try {
       await register(email, password, name);
     } catch (err: any) {
-      const message = err?.response?.data?.message || err?.message || t('register.failed');
-      setError(message);
+      setError(resolveError(err));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -31,6 +64,7 @@ const Register: React.FC = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Name */}
           <div>
             <label className="block text-sm font-semibold text-slate-700 mb-2">{t('register.name')}</label>
             <input
@@ -42,6 +76,7 @@ const Register: React.FC = () => {
             />
           </div>
 
+          {/* Email */}
           <div>
             <label className="block text-sm font-semibold text-slate-700 mb-2">{t('register.email')}</label>
             <input
@@ -54,24 +89,67 @@ const Register: React.FC = () => {
             />
           </div>
 
+          {/* Password */}
           <div>
             <label className="block text-sm font-semibold text-slate-700 mb-2">{t('register.password')}</label>
             <input
               type="password"
               placeholder={t('register.passwordPlaceholder')}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => { setPassword(e.target.value); setError(''); }}
               required
-              className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-pink-500 focus:ring-2 focus:ring-pink-100"
+              className={`w-full rounded-3xl border bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:ring-2 ${
+                !passwordOk
+                  ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
+                  : 'border-slate-200 focus:border-pink-500 focus:ring-pink-100'
+              }`}
             />
+
+            {/* Password requirements hint */}
+            <div className="mt-2 space-y-1">
+              <p className={`text-xs flex items-center gap-1 ${password.length >= 8 ? 'text-green-600' : 'text-slate-400'}`}>
+                <span>{password.length >= 8 ? '✓' : '○'}</span>
+                {t('register.reqMinChars')}
+              </p>
+            </div>
+
+            {/* Strength bar */}
+            {passwordStrength && (
+              <div className="mt-2">
+                <div className="h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
+                  <div className={`h-full rounded-full transition-all duration-300 ${
+                    passwordStrength === 'weak'   ? 'w-1/3 bg-red-400' :
+                    passwordStrength === 'medium' ? 'w-2/3 bg-yellow-400' :
+                                                    'w-full bg-green-500'
+                  }`} />
+                </div>
+                <p className={`text-xs mt-1 ${
+                  passwordStrength === 'weak'   ? 'text-red-500' :
+                  passwordStrength === 'medium' ? 'text-yellow-600' :
+                                                  'text-green-600'
+                }`}>
+                  {t(`register.strength.${passwordStrength}`)}
+                </p>
+              </div>
+            )}
           </div>
 
-          <button type="submit" className="w-full rounded-3xl bg-gradient-to-r from-fuchsia-600 to-pink-600 px-5 py-3 text-white text-lg font-semibold shadow-lg transition-all duration-200 hover:scale-[1.01] hover:shadow-xl">
-            {t('register.submit')}
+          {/* Error */}
+          {error && (
+            <div className="flex items-start gap-2 bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-2xl">
+              <span className="shrink-0 mt-0.5">⚠️</span>
+              <span>{error}</span>
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading || !passwordOk}
+            className="w-full rounded-3xl bg-gradient-to-r from-fuchsia-600 to-pink-600 px-5 py-3 text-white text-lg font-semibold shadow-lg transition-all duration-200 hover:scale-[1.01] hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? t('common.loading') : t('register.submit')}
           </button>
         </form>
-
-        {error && <p className="mt-4 text-center text-sm text-fuchsia-600">{error}</p>}
 
         <p className="mt-8 text-center text-sm text-slate-600">
           {t('register.loginPrompt')}{' '}

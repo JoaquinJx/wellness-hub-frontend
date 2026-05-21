@@ -5,26 +5,34 @@ import { useAuth } from '../context/AuthContext';
 
 const Login: React.FC = () => {
   const { t } = useTranslation();
-  const [email, setEmail] = useState('');
+  const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [error, setError]       = useState('');
+  const [loading, setLoading]   = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const resolveError = (err: any): string => {
+    const status  = err?.response?.status;
+    const message = err?.response?.data?.message;
+
+    if (status === 401) return t('login.errorCredentials');
+    if (status === 429) return t('login.errorTooMany');
+    if (status === 405) return t('login.errorServer');
+    if (status >= 500)  return t('login.errorServer');
+    if (message)        return typeof message === 'string' ? message : t('login.invalidCredentials');
+    return t('login.invalidCredentials');
+  };
+
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
     setLoading(true);
     try {
-      console.log('Attempting login with:', email);
       await login(email, password);
-      console.log('Login successful, navigating to dashboard');
       navigate('/dashboard');
     } catch (err: any) {
-      console.error('Login error:', err);
-      const errorMessage = err?.response?.data?.message || err?.message || t('login.invalidCredentials');
-      setError(errorMessage);
+      setError(resolveError(err));
     } finally {
       setLoading(false);
     }
@@ -46,7 +54,7 @@ const Login: React.FC = () => {
               type="email"
               placeholder={t('login.emailPlaceholder')}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => { setEmail(e.target.value); setError(''); }}
               required
               className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
             />
@@ -58,18 +66,29 @@ const Login: React.FC = () => {
               type="password"
               placeholder={t('login.passwordPlaceholder')}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => { setPassword(e.target.value); setError(''); }}
               required
               className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
             />
+            <p className="mt-1.5 text-xs text-slate-400">{t('login.passwordHint')}</p>
           </div>
 
-          <button type="submit" disabled={loading} className="w-full rounded-3xl bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-3 text-white text-lg font-semibold shadow-lg transition-all duration-200 hover:scale-[1.01] hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
+          {/* Error */}
+          {error && (
+            <div className="flex items-start gap-2 bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-2xl">
+              <span className="shrink-0 mt-0.5">⚠️</span>
+              <span>{error}</span>
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-3xl bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-3 text-white text-lg font-semibold shadow-lg transition-all duration-200 hover:scale-[1.01] hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             {loading ? t('common.loading') : t('login.submit')}
           </button>
         </form>
-
-        {error && <p className="mt-4 text-center text-sm text-fuchsia-600 font-semibold bg-fuchsia-50 p-3 rounded-2xl">{error}</p>}
 
         <p className="mt-8 text-center text-sm text-slate-600">
           {t('login.registerPrompt')}{' '}
